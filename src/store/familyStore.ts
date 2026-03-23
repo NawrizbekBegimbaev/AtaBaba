@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { FamilyMember, FamilyState, Language } from '../types/family';
-import { DEMO_DATA } from '../data/demoData';
+import { FAMILY_DATA } from '../data/familyData';
 import { fetchTree, addMember as apiAddMember } from '../api/client';
 
 function getAllIds(node: FamilyMember): string[] {
@@ -55,9 +55,9 @@ function getInitialExpanded(node: FamilyMember, maxDepth = 3, depth = 1): string
 }
 
 export const useFamilyStore = create<FamilyState>((set, get) => ({
-  familyData: DEMO_DATA,
+  familyData: FAMILY_DATA,
   selectedPersonId: null,
-  expandedNodes: new Set(getInitialExpanded(DEMO_DATA)),
+  expandedNodes: new Set(getInitialExpanded(FAMILY_DATA)),
   language: 'kk' as Language,
   searchQuery: '',
   highlightedPath: [],
