@@ -23,6 +23,29 @@
   --font-body: 'Source Serif 4', 'Georgia', serif;
 }
 
+/* ========== Light Theme (for elderly / accessibility) ========== */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f0e8;
+  --bg-card: #faf6ef;
+  --bg-card-hover: #f0ebe0;
+  --accent-gold: #8b6914;
+  --accent-gold-light: #a07818;
+  --accent-gold-dim: rgba(139, 105, 20, 0.3);
+  --accent-female: #6b3a1a;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #7a7a7a;
+  --border: rgba(139, 105, 20, 0.3);
+  --border-strong: rgba(139, 105, 20, 0.6);
+  --node-line: #8b6914;
+  --success: #2d6b3f;
+}
+
+[data-theme="light"] body::before {
+  opacity: 0.02;
+}
+
 /* ========== Reset ========== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -253,6 +276,25 @@ a:hover {
 .lang-switcher__btn--active {
   background: var(--accent-gold);
   color: var(--bg-primary);
+}
+
+/* ========== Theme Toggle ========== */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--accent-gold);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.theme-toggle:hover {
+  border-color: var(--accent-gold);
+  background: var(--bg-card-hover);
 }
 
 /* ========== Stats Bar ========== */

@@ -63,6 +63,7 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
   highlightedPath: [],
   sidebarOpen: false,
   mobileMenuOpen: false,
+  theme: 'dark' as const,
   loading: false,
 
   loadFromApi: async () => {
@@ -148,4 +149,10 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
   setSidebarOpen: (open) => set({ sidebarOpen: open, selectedPersonId: open ? get().selectedPersonId : null }),
 
   setMobileMenuOpen: (open) => set({ mobileMenuOpen: open }),
+
+  toggleTheme: () => set((state) => {
+    const next = state.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    return { theme: next };
+  }),
 }));

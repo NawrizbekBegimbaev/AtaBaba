@@ -1,10 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { Search, X, Menu } from 'lucide-react';
+import { Search, X, Menu, Sun, Moon } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useFamilyStore } from '../../store/familyStore';
 import { useTranslation } from '../../i18n';
 import { useSearch } from '../../hooks/useSearch';
 import { LanguageSwitcher } from './LanguageSwitcher';
+
+function ThemeToggle() {
+  const theme = useFamilyStore((s) => s.theme);
+  const toggleTheme = useFamilyStore((s) => s.toggleTheme);
+
+  return (
+    <button className="theme-toggle" onClick={toggleTheme} title={theme === 'dark' ? 'Light mode' : 'Dark mode'}>
+      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
+  );
+}
 
 export function Header() {
   const { t, lang } = useTranslation();
@@ -121,6 +132,7 @@ export function Header() {
           + {t.addPerson}
         </Link>
         <LanguageSwitcher />
+        <ThemeToggle />
       </div>
     </header>
   );

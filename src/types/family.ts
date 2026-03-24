@@ -11,6 +11,7 @@ export interface FamilyMember {
 }
 
 export type Language = 'kk' | 'ru';
+export type Theme = 'dark' | 'light';
 
 export interface FamilyState {
   familyData: FamilyMember;
@@ -21,6 +22,7 @@ export interface FamilyState {
   highlightedPath: string[];
   sidebarOpen: boolean;
   mobileMenuOpen: boolean;
+  theme: Theme;
   loading: boolean;
 
   loadFromApi: () => Promise<void>;
@@ -42,4 +44,5 @@ export interface FamilyState {
   setLanguage: (lang: Language) => void;
   setSidebarOpen: (open: boolean) => void;
   setMobileMenuOpen: (open: boolean) => void;
+  toggleTheme: () => void;
 }
