@@ -28,21 +28,21 @@ function filterTree(node: FamilyMember, expandedNodes: Set<string>): FamilyMembe
 
 export function getNodeWidth(generation: number, compact = false): number {
   if (compact) {
-    if (generation <= 1) return 160;
-    if (generation <= 2) return 145;
-    if (generation <= 3) return 135;
-    if (generation <= 4) return 125;
-    if (generation <= 5) return 120;
-    if (generation <= 6) return 115;
-    return 110;
+    if (generation <= 1) return 200;
+    if (generation <= 2) return 185;
+    if (generation <= 3) return 175;
+    if (generation <= 4) return 165;
+    if (generation <= 5) return 160;
+    if (generation <= 6) return 155;
+    return 150;
   }
-  if (generation <= 1) return 220;
-  if (generation <= 2) return 200;
-  if (generation <= 3) return 185;
-  if (generation <= 4) return 175;
-  if (generation <= 5) return 165;
-  if (generation <= 6) return 155;
-  return 150;
+  if (generation <= 1) return 260;
+  if (generation <= 2) return 240;
+  if (generation <= 3) return 220;
+  if (generation <= 4) return 210;
+  if (generation <= 5) return 200;
+  if (generation <= 6) return 190;
+  return 180;
 }
 
 export function getNodeHeight(generation: number, compact = false): number {
@@ -70,7 +70,7 @@ export function useTree(data: FamilyMember, expandedNodes: Set<string>, compact 
 
     const root = d3.hierarchy(filteredData);
 
-    const nodeSpacing = compact ? [140, 180] : [200, 250];
+    const nodeSpacing = compact ? [180, 180] : [250, 250];
     const treeLayout = d3
       .tree<FamilyMember>()
       .nodeSize(nodeSpacing as [number, number])
