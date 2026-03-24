@@ -63,7 +63,7 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
   highlightedPath: [],
   sidebarOpen: false,
   mobileMenuOpen: false,
-  theme: 'dark' as const,
+  theme: 'light' as const,
   loading: false,
 
   loadFromApi: async () => {

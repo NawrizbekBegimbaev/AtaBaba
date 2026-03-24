@@ -70,7 +70,7 @@ export function useTree(data: FamilyMember, expandedNodes: Set<string>, compact 
 
     const root = d3.hierarchy(filteredData);
 
-    const nodeSpacing = compact ? [180, 180] : [250, 250];
+    const nodeSpacing = compact ? [130, 180] : [160, 250];
     const treeLayout = d3
       .tree<FamilyMember>()
       .nodeSize(nodeSpacing as [number, number])

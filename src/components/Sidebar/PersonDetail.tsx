@@ -188,13 +188,13 @@ export function PersonDetail() {
         <button
           className="sidebar__action-btn sidebar__action-btn--delete"
           onClick={() => {
-            if (confirm(`${name} — өшіру?`)) {
+            if (confirm(`${name} — ${t.deleteConfirm}`)) {
               deletePerson(person.id);
             }
           }}
         >
           <Trash2 size={14} />
-          Өшіру
+          {t.delete}
         </button>
       </div>
     </div>

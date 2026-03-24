@@ -39,4 +39,6 @@ export const ru = {
   addPhoto: 'Добавить фото',
   loading: 'Загрузка...',
   menu: 'Меню',
+  delete: 'Удалить',
+  deleteConfirm: 'Удалить?',
 };
