@@ -50,7 +50,6 @@ export function PersonDetail() {
   if (!sidebarOpen || !person) return null;
 
   const name = lang === 'kk' ? person.nameKk : person.nameRu;
-  const secondaryName = lang === 'kk' ? person.nameRu : person.nameKk;
   const description = lang === 'kk' ? person.description : person.descriptionRu;
   const childCount = person.children?.length || 0;
 
