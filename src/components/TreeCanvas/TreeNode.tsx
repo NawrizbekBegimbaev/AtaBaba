@@ -1,3 +1,4 @@
+import { useRef, useCallback } from 'react';
 import { ChevronDown, ChevronRight, User } from 'lucide-react';
 import type { FamilyMember } from '../../types/family';
 import { getNodeWidth, getNodeHeight } from '../../hooks/useTree';
@@ -25,6 +26,26 @@ export function TreeNode({ node, isSelected, isHighlighted, hasChildren, isExpan
   const selectPerson = useFamilyStore((s) => s.selectPerson);
   const toggleNode = useFamilyStore((s) => s.toggleNode);
   const { lang } = useTranslation();
+
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const didLongPress = useRef(false);
+  const pressStart = useRef<number>(0);
+
+  const startPress = useCallback(() => {
+    didLongPress.current = false;
+    pressStart.current = Date.now();
+    longPressTimer.current = setTimeout(() => {
+      didLongPress.current = true;
+      selectPerson(data.id);
+    }, 1000);
+  }, [data.id, selectPerson]);
+
+  const endPress = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  }, []);
 
   const name = lang === 'kk' ? data.nameKk : data.nameRu;
   const secondaryName = lang === 'kk' ? data.nameRu : data.nameKk;
@@ -56,9 +77,25 @@ export function TreeNode({ node, isSelected, isHighlighted, hasChildren, isExpan
             borderRadius: isRoot ? 10 : 8,
             cursor: 'pointer',
           }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            startPress();
+          }}
+          onPointerUp={(e) => {
+            e.stopPropagation();
+            endPress();
+          }}
+          onPointerLeave={endPress}
+          onPointerCancel={endPress}
           onClick={(e) => {
             e.stopPropagation();
-            selectPerson(data.id);
+            if (didLongPress.current) {
+              didLongPress.current = false;
+              return;
+            }
+            if (hasChildren) {
+              toggleNode(data.id);
+            }
           }}
         >
           <div className="tree-node__card">
