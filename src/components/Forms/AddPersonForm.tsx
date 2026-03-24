@@ -24,10 +24,7 @@ export function AddPersonForm({ onSuccess }: AddPersonFormProps) {
   const addPerson = useFamilyStore((s) => s.addPerson);
 
   const [nameKk, setNameKk] = useState('');
-  const [nameRu, setNameRu] = useState('');
-  const [gender, setGender] = useState<'male' | 'female'>('male');
   const [parentId, setParentId] = useState('');
-  const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -53,17 +50,13 @@ export function AddPersonForm({ onSuccess }: AddPersonFormProps) {
     try {
       await addPerson(parentId, {
         nameKk,
-        nameRu: nameRu || nameKk,
-        gender,
-        description: description || undefined,
+        nameRu: nameKk,
+        gender: 'male',
         photo: photo || undefined,
       });
 
       setNameKk('');
-      setNameRu('');
-      setGender('male');
       setParentId('');
-      setDescription('');
       setPhoto(null);
       setPhotoPreview(null);
       onSuccess?.();
@@ -108,37 +101,6 @@ export function AddPersonForm({ onSuccess }: AddPersonFormProps) {
       </div>
 
       <div className="add-form__field">
-        <label>{t.nameRu}</label>
-        <input
-          type="text"
-          value={nameRu}
-          onChange={(e) => setNameRu(e.target.value)}
-        />
-      </div>
-
-      <div className="add-form__field">
-        <label>{t.gender}</label>
-        <div className="add-form__radio-group">
-          <label className="add-form__radio">
-            <input
-              type="radio"
-              checked={gender === 'male'}
-              onChange={() => setGender('male')}
-            />
-            {t.male}
-          </label>
-          <label className="add-form__radio">
-            <input
-              type="radio"
-              checked={gender === 'female'}
-              onChange={() => setGender('female')}
-            />
-            {t.female}
-          </label>
-        </div>
-      </div>
-
-      <div className="add-form__field">
         <label>{t.parent} *</label>
         <select
           value={parentId}
@@ -152,15 +114,6 @@ export function AddPersonForm({ onSuccess }: AddPersonFormProps) {
             </option>
           ))}
         </select>
-      </div>
-
-      <div className="add-form__field">
-        <label>{t.description}</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={3}
-        />
       </div>
 
       <div className="add-form__actions">

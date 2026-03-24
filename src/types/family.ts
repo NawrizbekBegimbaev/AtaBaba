@@ -35,6 +35,7 @@ export interface FamilyState {
     description?: string;
     photo?: File;
   }) => Promise<void>;
+  deletePerson: (id: string) => Promise<void>;
   setSearchQuery: (query: string) => void;
   highlightPathTo: (id: string) => void;
   clearHighlight: () => void;

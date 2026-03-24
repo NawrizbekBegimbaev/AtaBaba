@@ -425,8 +425,8 @@ a:hover {
 
 /* ========== Tree Edge Animation ========== */
 .tree-edge {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
+  stroke-dasharray: 100000;
+  stroke-dashoffset: 100000;
   animation: drawLine 0.8s ease forwards;
 }
 
@@ -615,6 +615,66 @@ a:hover {
 .sidebar__action-btn--primary:hover {
   background: var(--accent-gold-light);
   color: var(--bg-primary);
+}
+.sidebar__edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar__edit-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.sidebar__edit-btn:hover {
+  color: var(--accent-gold);
+}
+.sidebar__edit-input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-gold);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  outline: none;
+}
+.sidebar__edit-save,
+.sidebar__edit-cancel {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.sidebar__edit-save {
+  color: #6fcf7c;
+}
+.sidebar__edit-save:hover {
+  color: #90ff9a;
+}
+.sidebar__edit-cancel {
+  color: var(--text-muted);
+}
+.sidebar__edit-cancel:hover {
+  color: #e05040;
+}
+
+.sidebar__action-btn--delete {
+  width: 100%;
+  background: rgba(139, 44, 26, 0.15);
+  border-color: rgba(139, 44, 26, 0.4);
+  color: #e05040;
+}
+.sidebar__action-btn--delete:hover {
+  background: rgba(139, 44, 26, 0.3);
+  border-color: #8b2c1a;
+  color: #ff6050;
 }
 
 /* ========== Breadcrumb ========== */

@@ -1,10 +1,10 @@
-import { useMemo, useRef } from 'react';
-import { X, User, Users, ExternalLink, Camera } from 'lucide-react';
+import { useMemo, useRef, useState } from 'react';
+import { X, User, Users, ExternalLink, Camera, Trash2, Pencil, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFamilyStore } from '../../store/familyStore';
 import { useTranslation } from '../../i18n';
 import { BreadcrumbPath } from '../UI/BreadcrumbPath';
-import { updateMemberPhoto } from '../../api/client';
+import { updateMemberPhoto, updateMemberName } from '../../api/client';
 import type { FamilyMember } from '../../types/family';
 
 function findNode(node: FamilyMember, id: string): FamilyMember | null {
@@ -26,13 +26,26 @@ export function PersonDetail() {
   const setSidebarOpen = useFamilyStore((s) => s.setSidebarOpen);
   const highlightPathTo = useFamilyStore((s) => s.highlightPathTo);
   const clearHighlight = useFamilyStore((s) => s.clearHighlight);
+  const deletePerson = useFamilyStore((s) => s.deletePerson);
   const loadFromApi = useFamilyStore((s) => s.loadFromApi);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [editing, setEditing] = useState(false);
+  const [editName, setEditName] = useState('');
 
   const person = useMemo(() => {
     if (!selectedPersonId) return null;
     return findNode(familyData, selectedPersonId);
   }, [familyData, selectedPersonId]);
+
+  // Reset edit state when switching person
+  const prevIdRef = useRef(selectedPersonId);
+  if (prevIdRef.current !== selectedPersonId) {
+    prevIdRef.current = selectedPersonId;
+    if (editing) {
+      setEditing(false);
+      setEditName('');
+    }
+  }
 
   if (!sidebarOpen || !person) return null;
 
@@ -44,6 +57,22 @@ export function PersonDetail() {
   const handleClose = () => {
     setSidebarOpen(false);
     clearHighlight();
+  };
+
+  const handleEdit = () => {
+    setEditName(person.nameKk);
+    setEditing(true);
+  };
+
+  const handleSave = async () => {
+    if (!editName.trim()) return;
+    try {
+      await updateMemberName(person.id, editName.trim());
+      await loadFromApi();
+      setEditing(false);
+    } catch {
+      // silently fail
+    }
   };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,9 +118,31 @@ export function PersonDetail() {
               style={{ display: 'none' }}
             />
           </div>
-          <div>
-            <h3 className="sidebar__person-name">{name}</h3>
-            <p className="sidebar__person-secondary">{secondaryName}</p>
+          <div style={{ flex: 1 }}>
+            {editing ? (
+              <div className="sidebar__edit-row">
+                <input
+                  className="sidebar__edit-input"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+                  autoFocus
+                />
+                <button className="sidebar__edit-save" onClick={handleSave}>
+                  <Check size={16} />
+                </button>
+                <button className="sidebar__edit-cancel" onClick={() => setEditing(false)}>
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="sidebar__edit-row">
+                <h3 className="sidebar__person-name">{name}</h3>
+                <button className="sidebar__edit-btn" onClick={handleEdit}>
+                  <Pencil size={14} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -134,6 +185,18 @@ export function PersonDetail() {
             {t.viewProfile}
           </Link>
         </div>
+
+        <button
+          className="sidebar__action-btn sidebar__action-btn--delete"
+          onClick={() => {
+            if (confirm(`${name} — өшіру?`)) {
+              deletePerson(person.id);
+            }
+          }}
+        >
+          <Trash2 size={14} />
+          Өшіру
+        </button>
       </div>
     </div>
   );

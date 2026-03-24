@@ -70,7 +70,7 @@ export function useTree(data: FamilyMember, expandedNodes: Set<string>, compact 
 
     const root = d3.hierarchy(filteredData);
 
-    const nodeSpacing = compact ? [140, 110] : [200, 150];
+    const nodeSpacing = compact ? [140, 180] : [200, 250];
     const treeLayout = d3
       .tree<FamilyMember>()
       .nodeSize(nodeSpacing as [number, number])
@@ -89,10 +89,17 @@ export function useTree(data: FamilyMember, expandedNodes: Set<string>, compact 
       depth: d.depth,
     }));
 
-    const links: TreeLink[] = root.links().map((l) => ({
-      source: { x: l.source.x!, y: l.source.y! },
-      target: { x: l.target.x!, y: l.target.y! },
-    }));
+    const links: TreeLink[] = root.links().map((l) => {
+      const sourceH = getNodeHeight(l.source.data.generation, compact);
+      const targetH = getNodeHeight(l.target.data.generation, compact);
+      // expand button: center at height/2 + 6, radius 16 (desktop) / 12 (mobile)
+      const expandR = compact ? 12 : 16;
+      const sourceBottom = sourceH / 2 + 6 + expandR;
+      return {
+        source: { x: l.source.x!, y: l.source.y! + sourceBottom },
+        target: { x: l.target.x!, y: l.target.y! - targetH / 2 },
+      };
+    });
 
     return { nodes, links };
   }, [data, expandedNodes, compact]);

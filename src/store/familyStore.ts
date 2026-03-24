@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { FamilyMember, FamilyState, Language } from '../types/family';
 import { FAMILY_DATA } from '../data/familyData';
-import { fetchTree, addMember as apiAddMember } from '../api/client';
+import { fetchTree, addMember as apiAddMember, deleteMember as apiDeleteMember } from '../api/client';
 
 function getAllIds(node: FamilyMember): string[] {
   const ids = [node.id];
@@ -116,6 +116,16 @@ export const useFamilyStore = create<FamilyState>((set, get) => ({
       });
     } catch {
       // silently fail; the form will handle error display if needed
+    }
+  },
+
+  deletePerson: async (id) => {
+    try {
+      await apiDeleteMember(id);
+      await get().loadFromApi();
+      set({ selectedPersonId: null, sidebarOpen: false });
+    } catch {
+      // silently fail
     }
   },
 

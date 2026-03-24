@@ -9,8 +9,11 @@ export function TreeEdge({ link, highlighted }: TreeEdgeProps) {
   const { source, target } = link;
   const midY = (source.y + target.y) / 2;
 
+  // Orthogonal (L-shaped) line: down from parent, horizontal, down to child
   const d = `M ${source.x} ${source.y}
-    C ${source.x} ${midY}, ${target.x} ${midY}, ${target.x} ${target.y}`;
+    L ${source.x} ${midY}
+    L ${target.x} ${midY}
+    L ${target.x} ${target.y}`;
 
   return (
     <path

@@ -80,6 +80,22 @@ export async function addMember(
   return transformMember(data);
 }
 
+export async function updateMemberName(memberId: string, nameKk: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/members/${memberId}/`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name_kk: nameKk, name_ru: nameKk }),
+  });
+  if (!res.ok) throw new Error('Failed to update member');
+}
+
+export async function deleteMember(memberId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/members/${memberId}/`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete member');
+}
+
 export async function updateMemberPhoto(memberId: string, photo: File): Promise<string> {
   const formData = new FormData();
   formData.append('photo', photo);
