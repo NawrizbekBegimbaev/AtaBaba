@@ -409,16 +409,14 @@ a:hover {
   font-family: var(--font-heading);
   font-weight: 600;
   color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
   line-height: 1.2;
 }
 .tree-node__secondary {
   color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
   line-height: 1.3;
 }
 
